@@ -3,9 +3,9 @@ pipeline {
 
     stages {
 
-        stage('Checkout') {
+        stage('Clone') {
             steps {
-                checkout scm
+                git branch: 'main', url: 'https://github.com/<YOUR_USERNAME>/incident-recovery-cicd.git'
             }
         }
 
@@ -15,11 +15,11 @@ pipeline {
             }
         }
 
-        stage('Run Container') {
+        stage('Deploy Container') {
             steps {
                 sh '''
-                docker rm -f incident-recovery-app || true
-                docker run -d --name incident-recovery-app -p 8080:80 incident-recovery-app
+                docker rm -f app || true
+                docker run -d -p 80:80 --name app incident-recovery-app
                 '''
             }
         }
